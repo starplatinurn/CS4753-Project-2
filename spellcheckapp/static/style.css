@@ -1,0 +1,12 @@
+body {
+    background: rgb(34, 34, 34);
+    color: yellow;
+}
+
+a:link{
+    color: rgb(0, 162, 255);
+}
+
+a:visited{
+    color: rgb(209, 0, 209);
+}

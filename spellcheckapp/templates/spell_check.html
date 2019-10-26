@@ -1,0 +1,17 @@
+<html>
+    <link rel="stylesheet" href='/static/style.css' />
+    <body>
+        <p><b>Hello {{User}}</b></p>
+        {% if guest %}
+        <p>You must be logged in to start spellchecking!</p>
+        {% else %}
+        <form action="{{url_for('spell_check')}}" method="POST">
+            <p>Enter the text to be spell checked</p>
+            <textarea rows="4" cols="50" id=inputtext name="inputtext"></textarea><br></br>
+            <input type="submit" value="Submit">
+            <input type="reset">
+        </form>
+        <P><a href="{{ url_for('logout') }}">Click here to logout</P>
+        {% endif %}
+    </body>
+</html>

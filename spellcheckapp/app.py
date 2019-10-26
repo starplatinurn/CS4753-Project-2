@@ -1,4 +1,5 @@
 from flask import Flask,render_template,request,redirect,flash,url_for,session
+import os
 
 usr_list = []
 
@@ -14,10 +15,14 @@ app.secret_key = b'few9i04tjjvp0:id9022'
 
 @app.route('/')
 def index():
+    if 'uname' in session:
+        return redirect(url_for('spell_check'))
     return render_template('index.html')
 
 @app.route('/login', methods = ['GET','POST'])
 def login():
+    if 'uname' in session:
+        return redirect(url_for('spell_check'))
     result = "unknown"
     if request.method == 'POST':
         uname = request.form['uname']
@@ -30,14 +35,15 @@ def login():
                 if user.uname == uname and user.pword == pword:
                     if user.twofa == twofa:
                         result = "success"
-                        return render_template('login.html', result = result)
+                        session['uname'] = uname
                     else:
                         result = "Two-factor authentication failure"
-                        return render_template('login.html', result = result)
     return render_template('login.html', result = result)
 
 @app.route('/register', methods = ['GET','POST'])
 def register():
+    if 'uname' in session:
+        return redirect(url_for('spell_check'))
     if request.method == 'POST':
         uname = request.form['uname']
         pword = request.form['pword']
@@ -50,9 +56,27 @@ def register():
             return render_template('regresult.html', success = "success")
     return render_template('register.html')
 
-@app.route('/spell_check')
+@app.route('/spell_check', methods = ['GET','POST'])
 def spell_check():
-    return 'Enter text to spell check'
+    if 'uname' in session:
+        if request.method == 'POST':
+            inputtext = request.form['inputtext']
+            with open('input.txt', 'w') as input:
+                input.write(inputtext)
+            cmd = './a.out input.txt wordlist.txt'
+            out = os.popen(cmd).read()
+            res = ', '.join(out.split())
+            return render_template('spllchkresult.html', User = session['uname'], supplied_text = inputtext, output = res)
+        return render_template('spell_check.html', User = session['uname'], guest = False)
+    else:
+        return render_template('spell_check.html', User = 'guest', guest = True)
+
+@app.route('/logout')
+def logout():
+    if 'uname' in session:
+        session.pop('uname', None)
+        return render_template('logout.html')
+    return redirect(url_for('index'))
 
 if __name__ == '__main__':
     app.run(debug=True)#set to false to avoid security issues

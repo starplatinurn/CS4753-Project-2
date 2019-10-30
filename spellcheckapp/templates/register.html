@@ -3,6 +3,7 @@
     <body>
         <p><b>Registration</b></p>
         <form action="{{url_for('register')}}" method="POST">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
             <p>Enter a username</p>
             <input type="text" id=uname name="uname" placeholder="Username">
             <p>Enter a password</p>

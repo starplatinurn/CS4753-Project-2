@@ -6,6 +6,7 @@
         <p>You must be logged in to start spellchecking!</p>
         {% else %}
         <form action="{{url_for('spell_check')}}" method="POST">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
             <p>Enter the text to be spell checked</p>
             <textarea rows="4" cols="50" id=inputtext name="inputtext"></textarea><br></br>
             <input type="submit" value="Submit">

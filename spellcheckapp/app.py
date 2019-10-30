@@ -1,4 +1,5 @@
 from flask import Flask,render_template,request,redirect,flash,url_for,session
+from flask_wtf.csrf import CSRFProtect
 import os
 
 usr_list = []
@@ -12,6 +13,8 @@ class usr_info:
 app = Flask(__name__)
 
 app.secret_key = b'few9i04tjjvp0:id9022'
+
+csrf = CSRFProtect(app)
 
 @app.route('/')
 def index():
@@ -63,6 +66,7 @@ def spell_check():
             inputtext = request.form['inputtext']
             with open('input.txt', 'w') as input:
                 input.write(inputtext)
+            #make sure terminal is in right dir (and not one above) when running cmd
             cmd = './a.out input.txt wordlist.txt'
             out = os.popen(cmd).read()
             res = ', '.join(out.split())
@@ -79,4 +83,5 @@ def logout():
     return redirect(url_for('index'))
 
 if __name__ == '__main__':
-    app.run(debug=True)#set to false to avoid security issues
+    #set debug to false to avoid security issues
+    app.run(debug=False)

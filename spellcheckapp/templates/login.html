@@ -12,6 +12,7 @@
         {% if result != "success" %}
             <p><b>Login</b></p>
             <form action="{{url_for('login')}}" method="POST">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
                 <p>Username</p>
                 <input type="text" id=uname name="uname" placeholder="Username">
                 <p>Password</p>

@@ -1,0 +1,21 @@
+<html>
+    <link rel="stylesheet" href='/static/style.css' />
+    <body>
+        {% if User == "admin" %}
+            <p>Hello {{ User }}</p>
+            <form action="{{url_for('history')}}" method="POST">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+                <p>Search a user's history:</p>
+                <input type="text" id=userquery name="username" placeholder="Username">
+                <input type="submit" value="Submit">
+            </form>
+        {% else %}
+            <p>Hello {{ User }}</p>
+        {% endif %}
+        <p>Number of queries made on this account:</p>
+        <p id=numqueries>{{ queries|length }}</p>
+        {% for query in queries %}
+            <P id = query{{query.id}}><a href="{{ url_for('query', id = query.id) }}">query{{ query.id }}</P>
+        {% endfor %}
+    </body>
+</html>

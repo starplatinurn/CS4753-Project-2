@@ -105,19 +105,24 @@ def spell_check():
     else:
         return render_template('spell_check.html', User = 'guest', guest = True)
 
-@app.route('/history', methods = ['GET','POST'])
-def history():
+@app.route('/<user_name>/history', methods = ['GET','POST'])
+def history(user_name):
     if 'uname' not in session:
         return render_template('no_access.html')
-    user_id = User.query.filter_by(username=session['uname']).first().id
+    user_id = User.query.filter_by(username=user_name).first().id
     queries = Query.query.filter_by(user_id=user_id).all()
     if session['uname'] == 'admin':
         if request.method == 'POST':
             username = request.form['username']
             user_id = User.query.filter_by(username=username).first().id
             queries = Query.query.filter_by(user_id=user_id).all()
-            return render_template('history.html', User = username, queries = queries)
-    return render_template('history.html', User = session['uname'], queries = queries)
+            return redirect(url_for('history', user_name = username))
+        return render_template('history.html', User = user_name, queries = queries)
+    if session['uname'] == user_name:
+        return render_template('history.html', User = user_name, queries = queries)
+    else:
+        return render_template('no_access.html')
+    
 
 @app.route('/history/query<id>')
 def query(id):

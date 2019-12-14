@@ -1,0 +1,19 @@
+<html>
+    <link rel="stylesheet" href='/static/style.css' />
+    <body>
+        <p>Hello {{ User }}</p>
+        <form action="{{url_for('login_history')}}" method="POST">
+            <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+            <p>Search a user's logs:</p>
+            <input type="text" id=userid name="username" placeholder="Username">
+            <input type="submit" value="Submit">
+        </form>
+        {% if logs is not none %}
+            <p>Logs:</p>
+            {% for log in logs %}
+                <p>Login#{{log.id}}</p>
+                <div id = login{{log.id}}><P id = login{{log.id}}_time >{{ log.login }}</P><P id = logout{{log.id}}_time >{{ log.logout }}</P></div>
+            {% endfor %}
+        {% endif %}
+    </body>
+</html>

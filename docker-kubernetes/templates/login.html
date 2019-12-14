@@ -1,0 +1,27 @@
+<html>
+    <link rel="stylesheet" href='/static/style.css' />
+    <body>
+        {% if result == "success" %}
+            <p id = result>Login was a {{result}}</p>
+            <p><a href="{{ url_for('spell_check') }}">Click here to start spell checking</a></p>
+        {% elif result == "Incorrect username or password" %}
+            <p id = result><center>{{result}}</center></p>
+        {% elif result == "Two-factor authentication failure" %}
+            <p id = result><center>{{result}}</center></p>
+        {% endif %}
+        {% if result != "success" %}
+            <p><b>Login</b></p>
+            <form action="{{url_for('login')}}" method="POST">
+                <input type="hidden" name="csrf_token" value="{{ csrf_token() }}"/>
+                <p>Username</p>
+                <input type="text" id=uname name="uname" placeholder="Username">
+                <p>Password</p>
+                <input type="password" id=pword name="pword" placeholder="Password">
+                <p>Phone Number</p>
+                <input type="text" id=2fa name="2fa" placeholder="Phone Number"><br></br>
+                <input type="submit" value="Submit">
+                <input type="reset">
+            </form>
+        {% endif %}
+    </body>
+</html>

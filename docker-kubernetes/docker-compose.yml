@@ -1,0 +1,7 @@
+version: '3'
+services: 
+    web:
+        image: spellcheckapp_web 
+        build: .
+        ports: 
+            - "8080:5000"

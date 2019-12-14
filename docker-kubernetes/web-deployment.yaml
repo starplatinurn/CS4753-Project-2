@@ -1,0 +1,32 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  annotations:
+    kompose.cmd: kompose convert
+    kompose.version: 1.16.0 (0c01309)
+  creationTimestamp: null
+  labels:
+    io.kompose.service: web
+  name: web
+spec:
+  #4 pods
+  replicas: 4
+  strategy: {}
+  selector:
+    matchLabels:
+      io.kompose.service: web
+  template:
+    metadata:
+      creationTimestamp: null
+      labels:
+        io.kompose.service: web
+    spec:
+      containers:
+      - image: spellcheckapp_web
+        name: web
+        ports:
+        - containerPort: 5000
+        resources: {}
+        imagePullPolicy: Never
+      restartPolicy: Always
+status: {}

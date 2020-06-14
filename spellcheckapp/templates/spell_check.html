@@ -12,6 +12,10 @@
             <input type="submit" value="Submit">
             <input type="reset">
         </form>
+        <P><a href="{{url_for('history', user_name = User)}}">Click here to see your previous queries</P>
+        {% if User == "admin" %}
+            <P><a href="{{ url_for('login_history') }}">Click here for user's login history</P>
+        {% endif %}
         <P><a href="{{ url_for('logout') }}">Click here to logout</P>
         {% endif %}
     </body>

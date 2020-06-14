@@ -11,8 +11,8 @@
         {% if logs is not none %}
             <p>Logs:</p>
             {% for log in logs %}
-                <p>Login#{{log.id}}</p>
-                <div id = login{{log.id}}><P id = login{{log.id}}_time >{{ log.login }}</P><P id = logout{{log.id}}_time >{{ log.logout }}</P></div>
+                <p style="color:rgb(255, 102, 0);" >Login#{{log.id}}</p>
+                <div id = login{{log.id}}><P style="color:rgb(0, 255, 98);" id = login{{log.id}}_time >{{ log.login }}</P><P style="color:rgb(0, 255, 98);" id = logout{{log.id}}_time >{{ log.logout }}</P></div>
             {% endfor %}
         {% endif %}
     </body>

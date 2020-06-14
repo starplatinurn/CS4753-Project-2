@@ -13,7 +13,7 @@
             <p>{{ User }}'s queries</p>
         {% endif %}
         <p>Number of queries made on this account:</p>
-        <p id=numqueries>{{ queries|length }}</p>
+        <p style="color:rgb(0, 255, 98);" id=numqueries>{{ queries|length }}</p>
         {% for query in queries %}
             <P id = query{{query.id}}><a href="{{ url_for('query', id = query.id) }}">query{{ query.id }}</P>
         {% endfor %}
